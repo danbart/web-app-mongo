@@ -1,6 +1,8 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const path = require('path')
+const path = require('path');
+const morgan = require('morgan');
+const methodOverride = require('method-override');
 
 // Initializations
 const app = express();
@@ -22,12 +24,16 @@ app.set('view engine', '.hbs');
 // Middlewares
 // para decirle al servidor que procese los datos en json
 app.use(express.urlencoded({ extended: false }));
+app.use(morgan('dev'));
+// esto sirve para controlar los metodos que se envian desde el formulario
+app.use(methodOverride('_method'));
 
 
 // Global Variables
 
 // Routes
 app.use(require('./routes/index.routes'));
+app.use(require('./routes/notes.routes'));
 
 // Static Files
 // son archivos que cualquier cliente puede usar
