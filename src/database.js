@@ -8,7 +8,8 @@ const mongodb_uri = `mongodb://${NOTES_APP_MONGODB_HOST}/${NOTES_APP_MONGODB_DAT
 
 mongoose.connect(mongodb_uri, {
         useUnifiedTopology: true,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true
     })
     .then(db => console.log('Databese is connected'))
     .catch(err => console.log(err))

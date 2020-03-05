@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const UserSchema = new Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 }, {
     timestamps: true
@@ -11,14 +11,14 @@ const UserSchema = new Schema({
 
 // mongose deja crear metodos
 // este metodo sirve para encirptar la contraseña usando un salt
-UserSchema.methods.encryppassword = async password => {
+UserSchema.methods.encryptPassword = async password => {
     const salt = await bcrypt.genSalt(10);
-    bcrypt.hash(password, salt);
+    return await bcrypt.hash(password, salt);
 };
 
 // este metodo compara las contraseñas
 // si la respuesta es verdadera devuelve true si no false
-UserSchema.methods.matchPassword = function(password) {
+UserSchema.methods.matchPassword = async function(password) {
     return await bcrypt.compare(password, this.password)
 }
 
